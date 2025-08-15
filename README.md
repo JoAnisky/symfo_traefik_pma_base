@@ -52,7 +52,7 @@ __3.__ Ajouter le domaine au fichier hosts du système :
 __4.__ Installer Symfony (si nécessaire) à l’intérieur du conteneur :
 
 ```bash
-docker compose exec app bash
+docker exec -it app bash
 composer create-project symfony/skeleton .
 ```
 
