@@ -21,7 +21,7 @@ Exemple `.env` pour Symfony :
 ```env
 PROJECT_NAME=project_name
 DOMAIN=project_name.dev.local
-DATABASE_URL="mysql://MYSQL_USER:MYSQL_PASSWORD@service_host_name:3306/MYSQL_DATABASE"
+DATABASE_URL="mysql://MYSQL_USER:MYSQL_PASSWORD@mariadb:3306/MYSQL_DATABASE"
 ```
 
 ## Services
@@ -42,24 +42,25 @@ __2.__ Lancer le conteneur Symfony :
 ```bash
 docker compose up -d --build
 ```
-__3.__ Ajouter le domaine au fichier hosts :
+__3.__ Ajouter le domaine au fichier hosts du système :
 
 ```text
 127.0.0.1   project_name.dev.local
 ````
 
-__4.__ Accéder au projet :
 
-```text
-http://myapp.local
-````
-
-__5.__ Installer Symfony (si nécessaire) à l’intérieur du conteneur :
+__4.__ Installer Symfony (si nécessaire) à l’intérieur du conteneur :
 
 ```bash
 docker compose exec app bash
 composer create-project symfony/skeleton .
 ```
+
+__5.__ Accéder au projet :
+
+```text
+http://project_name.dev.local
+````
 
 ## Notes
 - Ne contient pas NodeJS
