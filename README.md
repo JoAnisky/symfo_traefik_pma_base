@@ -1,4 +1,4 @@
-# Symfony Docker Boilerplate
+# Symfony (Docker) Traefik/PMA/MariaDB boilerplate
 
 Ce projet fournit un conteneur Docker de base pour démarrer un projet Symfony, prêt à être utilisé avec Traefik et MariaDB/PHPMyAdmin.
 
@@ -7,6 +7,7 @@ Ce projet fournit un conteneur Docker de base pour démarrer un projet Symfony, 
 - `.docker/` : contient le Dockerfile pour le conteneur Symfony
 - `docker-compose.yml` : configuration des services pour Symfony
 - `.env` : variables d'environnement pour la base de données et Traefik
+- `my_project_directory/` : projet Symfony créé via `symfony new` ou `composer create-project`
 
 ## Prérequis
 
@@ -16,7 +17,7 @@ Ce projet fournit un conteneur Docker de base pour démarrer un projet Symfony, 
 
 ## Variables d'environnement
 
-Exemple `.env` pour Symfony :
+Exemple `.env` pour Symfony avec MySQL/MariaDB :
 
 ```env
 PROJECT_NAME=project_name
@@ -31,38 +32,39 @@ DATABASE_URL="mysql://MYSQL_USER:MYSQL_PASSWORD@mariadb:3306/MYSQL_DATABASE"
 - traefik : reverse proxy
 
 ## Démarrage
-__1.__ Lancer MariaDB + PHPMyAdmin + Traefik si ce n’est pas déjà fait :
+__1.__ Créer le projet Symfony en local (hors conteneur) :
 
 ```bash
-docker compose -f ../path-to-pma-traefik/docker-compose.yml up -d
+symfony new my_project_directory --version="7.3.x" --no-git
+# ou avec Composer
+composer create-project symfony/skeleton my_project_directory "7.3.*"
 ```
 
-__2.__ Lancer le conteneur Symfony :
+__2.__ Copier le dossier `.docker` et le `docker-compose.yml` de ce repo dans le projet. 
 
-```bash
-docker compose up -d --build
-```
-__3.__ Ajouter le domaine au fichier hosts du système :
+__3.__ Reporter les variables d'environnement dans le `.env` généré par Symfony.
+
+
+__4.__ Ajouter le domaine au fichier hosts du système :
 
 ```text
 127.0.0.1   project_name.dev.local
 ````
 
+__5.__ Lancer MariaDB/PHPMyAdmin + Traefik si ce n’est pas déjà fait
 
-__4.__ Installer Symfony (si nécessaire) à l’intérieur du conteneur :
-
+__6.__ Lancer le conteneur Symfony :
 ```bash
-docker exec -it app bash
-composer create-project symfony/skeleton .
+docker compose up -d --build
 ```
 
-__5.__ Accéder au projet :
+__7.__ Accéder au projet depuis le navigateur :
 
 ```text
 http://project_name.dev.local
 ````
 
 ## Notes
-- Ne contient pas NodeJS
-- Ce conteneur sert de squelette de projet Symfony, sans Symfony installé par défaut.
-- Compatible avec Traefik pour le routage HTTP et MariaDB/PMA pour la base de données.
+- Le projet Symfony est initialisé en local avant Docker.
+- Ne contient pas NodeJS par défaut.
+- Ce conteneur sert de squelette pour Symfony, compatible Traefik pour le routage HTTP et MariaDB/PMA pour la base de données.
