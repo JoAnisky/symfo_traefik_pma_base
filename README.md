@@ -8,7 +8,7 @@ Ce repo fournit un boilerplate Docker générique pour démarrer rapidement un p
 
 ## Structure
 
-- `.docker/` : contient le Dockerfile Symfony et le fichier de config `php.ini`
+- `.docker/` : contient le Dockerfile Symfony et le fichier de config `php.ini` (OPTIONNEL)
 - `docker-compose.yml` : configuration de base commune
 - `.gitignore` : ignore les fichiers sensibles et générés
 
