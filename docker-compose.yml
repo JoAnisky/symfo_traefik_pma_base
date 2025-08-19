@@ -16,7 +16,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.${PROJECT_NAME}.service=api@internal"
 networks:
   web:
     external: true
