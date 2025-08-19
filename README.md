@@ -10,11 +10,9 @@ Ce repo fournit un boilerplate Docker générique pour démarrer rapidement un p
 
 - `.docker/` : contient le Dockerfile Symfony et le fichier de config `php.ini`
 - `docker-compose.yml` : configuration de base commune
-- `docker-compose.override.yml` : override pour l’environnement local
-- `docker-compose.prod.yml` : override pour l’environnement de production
 - `.gitignore` : ignore les fichiers sensibles et générés
 
-> ⚠️ Les fichiers `.env.docker.local` , `.env.docker.prod` et `php.ini` **ne doivent pas être commités**.  
+> ⚠️ Les fichiers `.env.dev` , `.env.prod` et `php.ini` **ne doivent pas être commités**.  
 Ils contiennent les variables sensibles (mots de passe, domaines, etc.) ou spécifiques à l'environnement.
 
 ## Prérequis
@@ -25,25 +23,10 @@ Ils contiennent les variables sensibles (mots de passe, domaines, etc.) ou spéc
 
 ## Variables d’environnement
 
-- `.env.docker.local` : utilisé en développement local
-- `.env.docker.prod` : utilisé en production
+- `.env.dev` : utilisé en développement local
+- `.env.prod` : utilisé en production
 - `.env` (Symfony) : généré par `symfony new` ou `composer create-project`
 
-Exemple `.env.docker.local` :
-
-```env
-PROJECT_NAME=project_name
-DOMAIN=project_name.dev.local
-
-APP_ENV=dev
-APP_DEBUG=1
-DATABASE_URL="mysql://root:root@mariadb:3306/project_name?serverVersion=10.11&charset=utf8mb4"
-
-MYSQL_ROOT_PASSWORD=root
-MYSQL_DATABASE=project_name
-MYSQL_USER=project_user
-MYSQL_PASSWORD=project_pass
-```
 ## Configuration PHP
 
 Vous pouvez ajouter un fichier `php.ini` dans le dossier `.docker` pour surcharger les réglages PHP par défaut du conteneur Symfony.  
@@ -62,6 +45,27 @@ display_errors = On
 - phpmyadmin : conteneur PHPMyAdmin
 - traefik : reverse proxy
 
+## Makefile
+```makefile
+# Lancer le projet Symfony en dev
+up-dev:
+	cp .env.dev .env
+	docker compose up -d --build
+
+# Lancer le projet Symfony en prod
+up-prod:
+	cp .env.prod .env
+	docker compose up -d --build
+
+# Stopper et nettoyer (utilise le .env courant)
+down:
+	docker compose down -v
+
+# Afficher les logs du conteneur app
+logs:
+	docker compose logs -f app
+```
+
 ## Démarrage
 ### 1. Créer un projet Symfony
 
@@ -73,27 +77,56 @@ composer create-project symfony/skeleton my_project_directory "7.3.*"
 
 ### 2. Copier le boilerplate
 
-Copier le dossier `.docker` + les fichiers `docker-compose.*.yml` depuis ce repo dans le projet Symfony.
+Copier les dossiers `.docker` et `traefik` + les fichiers `docker-compose.yml` et `Makefile` depuis ce repo dans le projet Symfony.
 
 ### 3. Configurer les variables d’environnement
-Créer un `.env.docker.local` (ou `.env.docker.prod` en prod).
+Créer un `.env.dev` (ou `.env.prod` pour la prod).
+
+Exemple `.env.dev` :
+
+```dotenv
+# Symfony DEV
+PROJECT_NAME=appname
+APP_ENV=dev
+APP_DEBUG=1
+
+DOMAIN=appname.dev.local
+DATABASE_URL="mysql://root:root@mariadb:3306/appname?serverVersion=10.11&charset=utf8mb4"
+VOLUME_OPTION=:delegated
+```
+
+Exemple `.env.prod` :
+
+```dotenv
+# Symfony PROD
+
+PROJECT_NAME=my_symfony_app
+APP_ENV=prod
+APP_DEBUG=0
+DOMAIN=my_symfony_app.fr
+DATABASE_URL=mysql://user:password@mysql:3306/dbname
+VOLUME_OPTION=
+BASIC_AUTH_USERS=admin:$apr1$somehash$hashhere
+LETSENCRYPT_EMAIL=admin@mydomain.fr
+```
 
 ### 4. Ajouter le domaine au `/etc/hosts`
 
 ```text
-127.0.0.1   project_name.dev.local
+127.0.0.1   appname.dev.local
 ````
 
 ### 5. Lancer MariaDB/PHPMyAdmin + Traefik si ce n’est pas déjà fait
 
 ### 6. Démarrer les services
-Local : 
+
+En développement : 
 ```bash
-docker compose --env-file .env.docker.local up -d --build
+make up-dev
 ```
-Production :
+En production :
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env.docker.prod up -d --build
+make up-prod
 ```
 
 ### 7. Accéder à l’application

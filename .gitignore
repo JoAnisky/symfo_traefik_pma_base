@@ -1,7 +1,5 @@
-/.env.docker.local
-/.env.docker.prod
+/.env.dev
+/.env.prod
 /.env.local
 /.idea
-/vendor
-/node_modules
 /.docker/php.ini
