@@ -1,2 +1,6 @@
-.env
+/.env.docker.local
+/.env.docker.prod
+/.env.local
 /.idea
+/vendor
+/node_modules
