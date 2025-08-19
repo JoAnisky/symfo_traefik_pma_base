@@ -1,16 +1,15 @@
 services:
   app:
     build:
-      context: .docker
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .docker/Dockerfile
     container_name: ${PROJECT_NAME}
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+      DATABASE_URL: ${DATABASE_URL}
     volumes:
-      - ./:/var/www/html:delegated
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${PROJECT_NAME}_insecure.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.${PROJECT_NAME}_insecure.entrypoints=web"
-      - "traefik.docker.network=web"
+      - ./:/var/www/html
     networks:
       - web
       - mysql_network
@@ -19,4 +18,4 @@ networks:
   web:
     external: true
   mysql_network:
-    external: true
+    driver: bridge

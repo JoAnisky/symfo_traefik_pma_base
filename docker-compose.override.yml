@@ -1,0 +1,9 @@
+services:
+  app:
+    user: "1000:1000"
+    volumes:
+      - ./:/var/www/html:delegated
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${DOMAIN}`)"
+      - "traefik.docker.network=web"
