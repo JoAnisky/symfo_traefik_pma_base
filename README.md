@@ -1,12 +1,14 @@
 # Symfony (Docker) + Traefik + MariaDB/PMA Boilerplate
 
-Ce repo fournit un boilerplate Docker générique pour démarrer rapidement un projet Symfony, prêt à être utilisé avec Traefik et MariaDB/PHPMyAdmin.
-__Le projet Symfony est initialisé en local avant Docker.__
+Ce repo fournit un boilerplate Docker générique pour démarrer rapidement un projet Symfony, prêt à être utilisé avec Traefik et MariaDB/PHPMyAdmin.  
+Permet de gérer les environnements dev/prod grâce au `Makefile` et aux fichiers d'environnement docker
+
+>__Le projet Symfony doit être initialisé en local avant Docker.__
+
 [Repo Traefik](https://github.com/JoAnisky/traefik)
 
 [Repo PHPMyAdmin/MariaDB](https://github.com/JoAnisky/phpmyadmin-mariadb)
 
-----
 
 ## Prérequis
 
@@ -14,7 +16,6 @@ __Le projet Symfony est initialisé en local avant Docker.__
 - Traefik avec réseau Docker `web` (externe
 - MariaDB/PMA avec réseau Docker `mysql_network` (externe)
 
---- 
 
 ## 📂 Structure
 ```text
@@ -39,7 +40,6 @@ __Le projet Symfony est initialisé en local avant Docker.__
 └── src/                        # code source Symfony
 ```
 
----
 
 ## 🚫 Fichiers à ajouter au `.gitignore`
 Ces fichiers contiennent des secrets ou dépendent de l’environnement :
@@ -58,8 +58,6 @@ Ces fichiers contiennent des secrets ou dépendent de l’environnement :
 /node_modules/
 ```
 
----
-
 ## Fichiers Symfony à vérifier / créer
 
 - __Par défaut Symfony fournit uniquement `.env.`__
@@ -69,8 +67,6 @@ Ces fichiers contiennent des secrets ou dépendent de l’environnement :
 
 💡 Il n'ya pas besoin de toucher au .env Symfony global.
 Il faut juste utiliser `.env.prod`/`.env.local` pour surcharger certains paramètres (ex. APP_SECRET, DATABASE_URL).
-
----
 
 ## Variables d’environnement Docker
 
@@ -95,8 +91,6 @@ BASIC_AUTH_USERS=admin:$apr1$somehash$hashhere
 LETSENCRYPT_EMAIL=admin@mydomain.fr
 ```
 
----
-
 ## Variables Symfony (`.env`, `.env.prod`)
 
 Exemple `.env.prod` (à créer) :
@@ -106,7 +100,6 @@ APP_SECRET=ChangeMeToASecureSecret
 DATABASE_URL="mysql://user:password@mariadb:3306/mydb?serverVersion=10.11&charset=utf8mb4"
 ```
 
---- 
 ## Configuration PHP
 
 Vous pouvez ajouter un fichier `php.ini` dans le dossier `.docker` pour surcharger les réglages PHP par défaut du conteneur Symfony.  
@@ -118,8 +111,6 @@ upload_max_filesize = 50M
 post_max_size = 50M
 display_errors = On
 ```
----
-
 ## Makefile
 ```makefile
 # Lancer le projet Symfony en dev
@@ -142,7 +133,7 @@ down-prod:
 logs:
 	docker compose logs -f app
 ```
----
+
 ## Démarrage
 ### 1. Créer un projet Symfony
 
@@ -184,7 +175,6 @@ make up-prod
 
 - Prod → https://my_symfony_app.fr
 
----
 ## Notes
 - `.env` Symfony reste versionné → il sert de base.
 - `.env.prod` doit être créé mais non commité.
