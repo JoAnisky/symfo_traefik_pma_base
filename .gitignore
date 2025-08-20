@@ -1,5 +1,23 @@
-/.env.dev
-/.env.prod
-/.env.local
-/.idea
-/.docker/php.ini
+# Docker
+.docker/.env.docker.dev
+.docker/.env.docker.prod
+.docker/php.ini
+
+# Symfony
+.env.local
+.env.prod
+.env.dev.local
+.env.test.local
+/var/
+/vendor/
+/node_modules/
+
+# IDE
+./idea
+/.idea/.gitignore
+/.idea/git_toolbox_prj.xml
+/.idea/material_theme_project_new.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/symfo_traefik_pma_base.iml
+/.idea/vcs.xml
