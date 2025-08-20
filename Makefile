@@ -14,6 +14,10 @@ down-dev:
 down-prod:
 	docker compose --env-file .docker/.env.docker.prod down
 
-# Afficher les logs du conteneur app
-logs:
-	docker compose logs -f app
+# Afficher les logs du conteneur app en dev
+logs-dev:
+	docker compose --env-file .docker/.env.docker.dev logs -f app
+
+# Afficher les logs du conteneur app en prod
+logs-prod:
+	docker compose --env-file .docker/.env.docker.prod logs -f app
