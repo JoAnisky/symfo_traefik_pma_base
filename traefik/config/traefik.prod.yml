@@ -8,21 +8,10 @@ providers:
   docker:
     exposedByDefault: false
 
-api:
-  dashboard: true
-  insecure: false
-
-http:
-  middlewares:
-    auth:
-      basicAuth:
-        users:
-          - ${BASIC_AUTH_USERS}
-
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: ${LETSENCRYPT_EMAIL}
+      email: admin@mydomain.fr
       storage: /letsencrypt/acme.json
       httpChallenge:
         entryPoint: web
