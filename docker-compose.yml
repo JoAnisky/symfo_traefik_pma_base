@@ -10,6 +10,8 @@ services:
       DOMAIN: ${DOMAIN}
     volumes:
     - ./:/var/www/html${VOLUME_OPTION}
+    # utilise la variable APP_ENV pour charger le bon fichier de config Traefik (dev/prod)
+    - ./traefik/config/traefik.${APP_ENV}.yml:/etc/traefik/traefik.yml:ro
     networks:
       - web
       - mysql_network
