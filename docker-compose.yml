@@ -7,7 +7,7 @@ services:
     environment:
       APP_ENV: ${APP_ENV}
       APP_DEBUG: ${APP_DEBUG}
-      DATABASE_URL: ${DATABASE_URL}
+      DOMAIN: ${DOMAIN}
     volumes:
     - ./:/var/www/html${VOLUME_OPTION}
     networks:

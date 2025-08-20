@@ -1,16 +1,18 @@
 # Lancer le projet Symfony en dev
 up-dev:
-	cp .env.dev .env
-	docker compose up -d --build
+	docker compose --env-file .docker/.env.docker.dev up -d --build
 
 # Lancer le projet Symfony en prod
 up-prod:
-	cp .env.prod .env
-	docker compose up -d --build
+	docker compose --env-file .docker/.env.docker.prod up -d --build
 
-# Stopper et nettoyer (utilise le .env courant)
-down:
-	docker compose down -v
+# Stopper et nettoyer en dev
+down-dev:
+	docker compose --env-file .docker/.env.docker.dev down -v
+
+# Stopper en prod
+down-prod:
+	docker compose --env-file .docker/.env.docker.prod down
 
 # Afficher les logs du conteneur app
 logs:
