@@ -1,7 +1,6 @@
 # Docker
 .docker/.env.docker.dev
 .docker/.env.docker.prod
-.docker/php.ini
 
 # Symfony
 .env.local
