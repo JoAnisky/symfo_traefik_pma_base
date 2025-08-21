@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+      target: ${APP_ENV} # Permet de controler quel utilisateur/permissions dans le conteneur (FROM deps AS dev/prod)
     container_name: ${PROJECT_NAME}
-    user: "${UID:-1000}:${GID:-1000}"
     environment:
       APP_ENV: ${APP_ENV}
       APP_DEBUG: ${APP_DEBUG}
